@@ -1,0 +1,26 @@
+<md-toolbar class="md-whiteframe-1dp md-hue-1">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Back" ui-sref="books">
+      <ng-md-icon icon="arrow_back"></ng-md-icon>
+    </md-button>
+    <h2>
+        Add a new book
+    </h2>
+  </div>
+</md-toolbar>
+
+<md-content flex md-scroll-y>
+    <div layout="column" layout-fill layout-padding role="main">
+        
+        <div class="inset" hide-sm></div>
+        
+        <md-card flex-gt-sm="90" flex-gt-md="80">
+            <md-card-content>
+				<form name="bookForm" role="form" ng-submit="addBook()">
+				    <div ng-include="'partials/_form.html'"></div>
+				</form>
+			</md-card-content>
+		</md-card>
+    </div>
+</md-content>
+

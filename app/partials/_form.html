@@ -1,0 +1,96 @@
+
+<md-input-container class="md-block">
+    <label>Title</label>
+    <input required name="title" ng-model="book.title">
+    <div ng-messages="bookForm.title.$error">
+        <div ng-message="required">This is required.</div>
+    </div>
+</md-input-container>
+
+<md-input-container class="md-block">
+    <label>Subtitle</label>
+    <input name="subtitle" ng-model="book.subtitle">
+</md-input-container>
+
+<div layout="row">
+    <md-input-container class="md-block" flex>
+        <label>Google Books ID or URL</label>
+        <input name="google_id" ng-model="book.google_id">
+    </md-input-container>
+    <md-button hide-xs ng-hide="loading_googlebooks" ng-disabled="!validGoogleId()" ng-click="loadFromGoogleBooks()">Load Info</md-button>
+    <md-button hide-gt-xs ng-hide="loading_googlebooks" ng-disabled="!validGoogleId()" ng-click="loadFromGoogleBooks()">Load</md-button>
+    <md-progress-circular ng-show="loading_googlebooks" md-mode="indeterminate"></md-progress-circular>
+</div>
+
+<div layout="row">
+    <md-input-container class="md-block" flex>
+        <label>Goodreads ID or URL</label>
+        <input name="goodreads_id" ng-model="book.goodreads_id">
+    </md-input-container>
+    <md-button hide-xs ng-hide="loading_goodreads" ng-disabled="!validGoodreadsId()" ng-click="loadFromGoodreads()">Load Ratings</md-button>
+    <md-button hide-gt-xs ng-hide="loading_goodreads" ng-disabled="!validGoodreadsId()" ng-click="loadFromGoodreads()">Load</md-button>
+    <md-progress-circular ng-show="loading_goodreads" md-mode="indeterminate"></md-progress-circular>
+</div>
+
+<md-chips
+    ng-model="book.authors"
+    placeholder="Add other Author"
+    secondary-placeholder="Enter an Author">
+</md-chips>
+
+<md-input-container class="md-block">
+    <label>Publisher</label>
+    <input name="publisher" ng-model="book.publisher">
+</md-input-container>
+
+<md-input-container class="md-block">
+    <label>Published Date</label>
+    <input name="published_date" ng-model="book.published_date">
+</md-input-container>
+
+<md-input-container class="md-block">
+    <label>Description</label>
+    <input name="description" ng-model="book.description">
+</md-input-container>
+
+<md-chips
+    ng-model="book.categories"
+    placeholder="Add other Category"
+    secondary-placeholder="Enter a Category">
+</md-chips>
+
+<md-input-container class="md-block">
+    <label>Thumbnail</label>
+    <input name="thumbnail" ng-model="book.thumbnail">
+</md-input-container>
+
+<md-input-container class="md-block">
+    <label>Language</label>
+    <input name="language" ng-model="book.language">
+</md-input-container>
+
+
+<md-input-container class="md-block">
+    <label>Google Books average rating</label>
+    <input name="google_ratings_avg" ng-model="book.google_ratings_avg">
+</md-input-container>
+
+<md-input-container class="md-block">
+    <label>Google Books number of ratings</label>
+    <input name="google_ratings_count" ng-model="book.google_ratings_count">
+</md-input-container>
+
+<md-input-container class="md-block">
+    <label>Goodreads average rating</label>
+    <input name="goodreads_ratings_avg" ng-model="book.goodreads_ratings_avg">
+</md-input-container>
+
+<md-input-container class="md-block">
+    <label>Goodreads number of ratings</label>
+    <input name="goodreads_ratings_count" ng-model="book.goodreads_ratings_count">
+</md-input-container>
+
+<div layout="row" layout-align="end center">
+    <md-button class="md-secondary" ng-click="deleteBook(book)" ng-show="edit_mode">Delete</md-button>
+    <md-button class="md-primary" ng-disabled="bookForm.$invalid" type="submit">Save</md-button>
+</div>

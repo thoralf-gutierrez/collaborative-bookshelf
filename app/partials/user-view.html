@@ -1,0 +1,43 @@
+<md-toolbar class="md-whiteframe-1dp md-hue-1">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Back" ui-sref="users">
+      <ng-md-icon icon="arrow_back"></ng-md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<md-content flex md-scroll-y>
+    <div layout="column" layout-fill layout-padding role="main">
+        
+        <div class="inset" hide-sm></div>
+        
+        <md-card flex-gt-sm="90" flex-gt-md="80">
+
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{user.name}}</span>
+                </md-card-title-text>
+            </md-card-title>
+
+            <md-card-content>
+                <md-list>
+                    <md-subheader class="md-no-sticky">Currently reading</md-subheader>
+                    <md-list-item
+                        class="md-2-line secondary-button-padding"
+                        ng-repeat="book in books | orderBy : 'title'"
+                        ui-sref="viewBook({id:book._id})">
+                        
+                        <img alt="{{ book.title }}" ng-src="{{ book.thumbnail || '/images/nocover.jpg' }}" class="md-tile-left" height="72px" />
+                        <div class="md-list-item-text inset">  
+                          <h3>{{book.title}}</h3>
+                          <p>{{book.subtitle}}</p>
+                          <p>{{book.authors.join(", ")}}</p>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </md-card-content>
+            
+        </md-card>
+    </div>
+</md-content>
+

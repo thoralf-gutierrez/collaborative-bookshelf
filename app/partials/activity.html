@@ -1,0 +1,55 @@
+<md-toolbar class="md-whiteframe-1dp" ng-show="!showSearch">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Menu" ng-click="toggleSidenav()" hide-gt-md>
+      <ng-md-icon icon="menu"></ng-md-icon>
+    </md-button>
+    <h2>
+      Activity
+    </h2>
+  </div>
+</md-toolbar>
+
+<md-content flex md-scroll-y>
+    <div layout="column" layout-fill layout-padding role="main">
+        <div class="inset" hide-sm></div>
+
+        <md-card flex-gt-sm="90" flex-gt-md="80">
+            <md-card-content>
+
+              <md-list>
+                <md-list-item
+                    class="md-2-line secondary-button-padding"
+                    ng-repeat="activity in activities | orderBy : 'createdAt' : true"
+                    style="margin-bottom:10px">
+                    
+                      
+                      <div class="md-list-item-text inset">  
+                        
+                        <h3 ng-if="activity.type == 'borrow'" >
+                          <a ui-sref="viewUser({id:activity.user.google_id})">{{activity.user.name}}</a> borrowed <a ui-sref="viewBook({id:activity.book._id})">{{activity.book.title}}</a></h3>
+
+                        <h3 ng-if="activity.type == 'return'" >
+                          <a ui-sref="viewUser({id:activity.user.google_id})">{{activity.user.name}}</a> returned <a ui-sref="viewBook({id:activity.book._id})">{{activity.book.title}}</a></h3>
+
+                        <h3 ng-if="activity.type == 'add'" >
+                          <a ui-sref="viewUser({id:activity.user.google_id})">{{activity.user.name}}</a> added <a ui-sref="viewBook({id:activity.book._id})">{{activity.book.title}}</a></h3>
+
+                        <h3 ng-if="activity.type == 'delete'" >
+                          <a ui-sref="viewUser({id:activity.user.google_id})">{{activity.user.name}}</a> deleted <a ui-sref="viewBook({id:activity.book._id})">{{activity.book.title}}</a></h3>
+
+                        <h3 ng-if="activity.type == 'modify'" >
+                          <a ui-sref="viewUser({id:activity.user.google_id})">{{activity.user.name}}</a> modified <a ui-sref="viewBook({id:activity.book._id})">{{activity.book.title}}</a></h3>
+
+                        <p><span am-time-ago="activity.createdAt"></span></p>
+
+                      </div>
+                    
+                      <img alt="{{ activity.user.name }}" ng-src="{{ activity.user.picture || '/images/nocover.jpg' }}" height="72px" />
+                      <img alt="{{ activity.book.title }}" ng-src="{{ activity.book.thumbnail || '/images/nocover.jpg' }}" height="72px" style="margin-left: 10px" />  
+                    
+                </md-list-item>
+              </md-list>
+            </md-card-content>
+        </md-card>
+    </div>
+</md-content>

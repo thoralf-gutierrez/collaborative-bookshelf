@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="CollaborativeBookshelfApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Collaborative Bookshelf</title>
+    <!-- head:js -->
+    <!-- endinject -->
+    <!-- bower:css -->
+    <!-- endinject -->
+    <!-- inject:css -->
+    <!-- endinject -->
+  </head>
+  <body layout="row" ng-controller="AppController">
+
+    <md-sidenav
+      layout="column"
+      class="md-sidenav-left md-whiteframe-2dp ng-cloak"
+      md-component-id="left"
+      md-is-locked-open="$mdMedia('gt-md')"
+      ng-show="isAuthenticated()">
+      
+      <md-toolbar class="md-tall md-hue-2">
+        <span flex></span>
+        <div layout="column" class="md-toolbar-tools-bottom inset">
+          <img ng-src="{{user.picture}}" height="64px" width="64px" display="block" alt="{{user.name}}" ng-cloak/>
+          <p ng-cloak>{{user.name}}</p>
+        </div>
+      </md-toolbar>
+      
+      <md-list>
+        <md-list-item ng-click="goToBooks()">
+          <ng-md-icon icon="find_in_page"></ng-md-icon>
+          <p>Books</p>
+        </md-list-item>
+
+        <md-list-item ng-click="goToMe()">
+          <ng-md-icon icon="person"></ng-md-icon>
+          <p>Me</p>
+        </md-list-item>
+
+        <md-list-item ng-click="goToActivity()">
+          <ng-md-icon icon="list"></ng-md-icon>
+          <p>Activity</p>
+        </md-list-item>
+
+        <md-list-item ng-click="goToUsers()">
+          <ng-md-icon icon="supervisor_account"></ng-md-icon>
+          <p>Users</p>
+        </md-list-item>
+
+
+      </md-list>
+
+      <div flex></div>
+
+      <md-list>        
+        <md-list-item ng-click="logout()">
+          <ng-md-icon icon="exit_to_app"></ng-md-icon>
+          <p>Logout</p>
+        </md-list-item>
+      </md-list>
+    </md-sidenav>
+    
+    <ui-view layout="column" layout-fill>
+    </ui-view>
+
+    <!-- bower:js -->
+    <!-- endinject -->
+    <!-- inject:js -->
+    <!-- endinject -->
+  </body>
+</html>
+    

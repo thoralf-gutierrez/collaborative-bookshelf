@@ -1,0 +1,117 @@
+<md-toolbar class="md-whiteframe-1dp md-hue-1">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Back" ng-click="goBack()">
+      <ng-md-icon icon="arrow_back"></ng-md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<md-content flex md-scroll-y>
+    <div layout="column" layout-fill layout-padding role="main">
+        
+        <div class="inset" hide-sm></div>
+        
+        <md-card flex-gt-sm="90" flex-gt-md="80">
+
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{book.title}}</span>
+                    <span class="md-subhead">{{book.subtitle}}</span>
+
+                    <md-card-actions layout="row" layout-align="start center">
+                        <md-button
+                            ng-show="book.google_id"
+                            ng-href="https://books.google.be/books/about?id={{book.google_id}}" target="_blank">
+                            Google Books<span ng-show="book.google_ratings_avg"> : {{book.google_ratings_avg}}/5</span>
+                        </md-button>
+                        <md-button
+                            ng-show="book.goodreads_id"
+                            ng-href="https://www.goodreads.com/book/show/{{book.goodreads_id}}" target="_blank">
+                            Goodreads<span ng-show="book.goodreads_ratings_avg"> : {{book.goodreads_ratings_avg}}/5</span>
+                        </md-button>
+                    </md-card-actions>
+
+                    <div ng-show="book.authors.length > 0">
+                        <h4>Authors</h4>
+                        <ul>
+                            <li ng-repeat="author in book.authors">{{author}}</li>
+                        </ul>
+                    </div>
+
+                    <div ng-show="book.publisher">
+                        <h4>Publisher</h4>
+                        <p>{{book.publisher}}</p>
+                    </div>
+
+                    <div ng-show="book.published_date">
+                        <h4>Published date</h4>
+                        <p>{{book.published_date}}</p>
+                    </div>
+                </md-card-title-text>
+
+                <md-card-title-media>
+                    <img ng-src="{{book.thumbnail}}" width="152px" />
+                </md-card-title-media>
+            </md-card-title>
+
+            
+            <md-card-content>
+
+                <div ng-show="book.description">
+                    <h4>Description</h4>
+                    <div ng-bind-html="sanitizedDescription()"></div>
+                </div>
+
+                <div ng-show="book.categories.length > 0">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li ng-repeat="category in book.categories">{{category}}</li>
+                    </ul>
+                </div>
+
+                <div ng-show="book.language">
+                    <h4>Language</h4>
+                    <p>{{book.language}}</p>
+                </div>
+
+                
+            </md-card-content>
+
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button
+                    class="md-primary"
+                    ng-click="subscribe()">
+                    Subscribe
+                    <md-tooltip md-direction="top">
+                        Get notified of status change
+                    </md-tooltip>
+                </md-button>
+
+                <md-button
+                    class="md-primary"
+                    ng-click="borrow()"
+                    ng-hide="book.borrowed_by">
+                    Borrow
+                </md-button>
+
+                <md-button
+                    class="md-primary"
+                    disabled
+                    ng-show="book.borrowed_by && book.borrowed_by.google_id != user.google_id">
+                    Borrowed by {{book.borrowed_by.name}}
+                </md-button>
+
+                <md-button
+                    class="md-primary"
+                    ng-click="return()"
+                    ng-show="book.borrowed_by && book.borrowed_by.google_id == user.google_id">
+                    Return
+                </md-button>
+
+                
+                <md-button ui-sref="editBook({id:book._id})">Edit</md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+</md-content>
+

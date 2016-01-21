@@ -1,0 +1,27 @@
+{
+  "name": "collaborative-bookshelf",
+  "version": "0.0.0",
+  "authors": "",
+  "private": true,
+  "dependencies": {
+    "angular": "latest",
+    "angular-ui-router": "latest",
+    "angular-animate": "latest",
+    "angular-material": "latest",
+    "angular-material-icons": "latest",
+    "angular-resource": "latest",
+    "angular-aria": "latest",
+    "angular-sanitize": "latest",
+    "angular-moment" : "latest",
+    "foundation": "~5.5.1",
+    "angular-google-plus": "latest"
+  },
+  "devDependencies": {
+    "angular-mocks": "latest"
+  },
+  "overrides": {
+    "foundation": {
+      "main": "js/foundation.js"
+    }
+  }
+}

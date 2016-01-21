@@ -1,0 +1,60 @@
+<md-toolbar class="md-whiteframe-1dp" ng-show="!showSearch">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Menu" ng-click="toggleSidenav()" hide-gt-md>
+      <ng-md-icon icon="menu"></ng-md-icon>
+    </md-button>
+    <h2>
+      Users
+    </h2>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="Search" ng-click="showSearch = !showSearch">
+      <ng-md-icon icon="search"></ng-md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<md-toolbar class="md-whiteframe-1dp md-hue-1" ng-show="showSearch">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Back" ng-click="showSearch = !showSearch">
+      <ng-md-icon icon="arrow_back"></ng-md-icon>
+    </md-button>
+    <h2 flex="10">
+      Back
+    </h2>
+
+    <span layout="column" flex>
+      <label>&nbsp;</label>
+      <md-input-container md-no-float class="md-block">
+        <input ng-model="search.$" placeholder="enter search">
+      </md-input-container>
+    </span>
+
+    <md-button class="md-icon-button" aria-label="Search" ng-click="showSearch = !showSearch">
+      <ng-md-icon icon="search"></ng-md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<md-content flex md-scroll-y>
+    <div layout="column" layout-fill layout-padding role="main">
+        <div class="inset" hide-sm></div>
+        <md-card flex-gt-sm="90" flex-gt-md="80">
+            <md-card-content>
+
+              <md-list>
+                <md-list-item
+                    class="md-2-line secondary-button-padding"
+                    ng-repeat="user in users | filter:search | orderBy : 'name'"
+                    ui-sref="viewUser({id:user.google_id})">
+                    
+                    <img alt="{{ user.name }}" ng-src="{{ user.picture }}" class="md-tile-left" height="72px" />
+                    <div class="md-list-item-text inset">  
+                      <h3>{{user.name}}</h3>
+                    </div>
+                </md-list-item>
+              </md-list>
+
+            </md-card-content>
+        </md-card>
+    </div>
+</md-content>
