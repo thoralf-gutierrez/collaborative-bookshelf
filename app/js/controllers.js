@@ -168,6 +168,10 @@ controller('BookCreateController',function($scope,$state,$stateParams,$mdToast,B
         return GoogleBooks.validId($scope.book.google_id);
     };
 
+    $scope.validGoodreadsId = function(){
+        return $scope.book.goodreads_id !== undefined && $scope.book.goodreads_id.length >= 1 && !isNaN($scope.book.goodreads_id);
+    };
+
     $scope.loadFromGoogleBooks = function(){
         $scope.loading_googlebooks = true;
         GoogleBooks.loadBook($scope.book, $scope);
