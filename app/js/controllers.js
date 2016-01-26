@@ -60,7 +60,7 @@ controller('AppController', function($scope, $state, $mdSidenav, popupService, A
     };
 
     $scope.emailFeedback = function() {
-        var link = "mailto:thoralf.gutierrez@realimpactanalytics.com?subject=Library%20App%20Feedback&body=https%3A%2F%2Fyoutu.be%2FsZrgxHvNNUc";
+        var link = "mailto:thoralf.gutierrez@realimpactanalytics.com?subject=Library%20App%20Feedback&body=I%20want%20some%20more%20features!%20https%3A%2F%2Fyoutu.be%2FsZrgxHvNNUc";
         window.open(link,'_blank');
     };
 }).
