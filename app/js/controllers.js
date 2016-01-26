@@ -58,6 +58,11 @@ controller('AppController', function($scope, $state, $mdSidenav, popupService, A
         $state.go('viewUser', {id:$scope.user.google_id});
         $mdSidenav('left').toggle();
     };
+
+    $scope.emailFeedback = function() {
+        var link = "mailto:thoralf.gutierrez@realimpactanalytics.com?subject=Library%20App%20Feedback&body=https%3A%2F%2Fyoutu.be%2FsZrgxHvNNUc";
+        window.open(link,'_blank');
+    };
 }).
 
 controller('BookListController',function($scope, $mdSidenav, $state, popupService, $window, Book){

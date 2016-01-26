@@ -266,5 +266,5 @@ app.use('/api', router);
 
 // start app ===============================================
 app.listen(port);                   // startup our app at http://localhost:8080
-console.log('Starting sever on port ' + port);       // shoutout to the user
+console.log('Starting server on port ' + port);       // shoutout to the user
 exports = module.exports = app;             // expose app
