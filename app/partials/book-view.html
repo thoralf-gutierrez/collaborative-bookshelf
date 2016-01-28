@@ -96,7 +96,7 @@
 
                 <md-button
                     class="md-primary"
-                    disabled
+                    ng-disabled="true"
                     ng-show="book.borrowed_by && book.borrowed_by.google_id != user.google_id">
                     Borrowed by {{book.borrowed_by.name}}
                 </md-button>
