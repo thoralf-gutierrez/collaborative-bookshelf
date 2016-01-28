@@ -38,15 +38,14 @@
                         </ul>
                     </div>
 
-                    <div ng-show="book.publisher">
-                        <h4>Publisher</h4>
-                        <p>{{book.publisher}}</p>
+                    <!--
+                    <div>
+                        <p ng-show="book.publisher"><strong>Publisher</strong> {{book.publisher}}</p>
+                        <p ng-show="book.published_date"><strong>Published</strong> {{book.published_date}}</p>
+                        <p ng-show="book.language"><strong>Language</strong> {{book.language}}</p>
                     </div>
-
-                    <div ng-show="book.published_date">
-                        <h4>Published date</h4>
-                        <p>{{book.published_date}}</p>
-                    </div>
+                    -->
+                    
                 </md-card-title-text>
 
                 <md-card-title-media>
@@ -68,12 +67,6 @@
                         <li ng-repeat="category in book.categories">{{category}}</li>
                     </ul>
                 </div>
-
-                <div ng-show="book.language">
-                    <h4>Language</h4>
-                    <p>{{book.language}}</p>
-                </div>
-
                 
             </md-card-content>
 
