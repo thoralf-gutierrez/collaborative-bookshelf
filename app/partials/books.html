@@ -50,7 +50,7 @@
                 <md-subheader class="md-no-sticky">Available</md-subheader>
                 <md-list-item
                     class="md-2-line secondary-button-padding"
-                    ng-repeat="book in books | filter:search | bookFilter:{borrowed: false, available:true} | orderBy : 'title'"
+                    ng-repeat="book in books | filter:search | bookFilter:{borrowed: false, available:true} | orderBy : ['-recommended_by.length', 'title']"
                     ui-sref="viewBook({id:book._id})">
                     
                     <img alt="{{ book.title }}" ng-src="{{ book.thumbnail || '/images/nocover.jpg' }}" class="md-tile-left" height="72px" />
@@ -58,6 +58,14 @@
                       <h3>{{book.title}}</h3>
                       <p>{{book.subtitle}}</p>
                       <p>{{book.authors.join(", ")}}</p>
+                      <md-button
+                        class="md-secondary"
+                        ng-class="{already_recommended: book.is_recommended, not_recommended: !book.is_recommended}"
+                        aria-label="Recommend"
+                        ng-click="toggle_recommend(book)" >
+                        +{{book.recommended_by.length}}
+                      </md-button>
+                      
                     </div>
                 </md-list-item>
                 <md-subheader class="md-no-sticky">Borrowed</md-subheader>

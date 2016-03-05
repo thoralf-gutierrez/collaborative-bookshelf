@@ -2,6 +2,7 @@ var express        = require('express');
 var app            = express();
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
+var ObjectId       = require('mongoose').Types.ObjectId
 
 var port = process.env.PORT || 8080; // set our port
 var staticdir = process.env.NODE_ENV === 'production' ? 'dist.prod' : 'dist.dev'; // get static files dir
@@ -49,14 +50,19 @@ router.route('/books')
 
         if (req.query.borrowed_by) {
             query = {'borrowed_by.google_id': req.query.borrowed_by}
+        } else if (req.query.recommended_by) {
+            query = {'recommended_by': { $elemMatch: { $eq: new ObjectId(req.query.recommended_by) } } }
         } else {
             query = {}
         }
-        
-        Book.find(query, function(err, books) {
-            if (err) { console.log(err); res.send(err); }
-            res.json(books);
-        });
+
+        Book
+            .find(query)
+            .populate('recommended_by')
+            .exec(function(err, books) {
+                if (err) { console.log(err); res.send(err); }
+                res.json(books);
+            });
     })
 
     .post(function(req, res) {
@@ -74,10 +80,13 @@ router.route('/books')
 router.route('/books/:book_id')
 
     .get(function(req, res) {
-        Book.findById(req.params.book_id, function(err, book) {
-            if (err) { console.log(err); res.send(err); }
-            res.json(book);
-        });
+        Book
+            .findById(req.params.book_id)
+            .populate('recommended_by')
+            .exec(function(err, book) {
+                if (err) { console.log(err); res.send(err); }
+                res.json(book);
+            });
     })
 
     .put(function(req, res) {
@@ -98,6 +107,7 @@ router.route('/books/:book_id')
 		    book.thumbnail = req.body.thumbnail;
             book.language = req.body.language;
 		    book.borrowed_by = req.body.borrowed_by;
+            book.recommended_by = req.body.recommended_by;
 		    book.google_ratings_avg = req.body.google_ratings_avg;
 		    book.google_ratings_count = req.body.google_ratings_count;
 		    book.goodreads_ratings_avg = req.body.goodreads_ratings_avg;
@@ -105,7 +115,13 @@ router.route('/books/:book_id')
 
             book.save(function(err) {
                 if (err) { console.log(err); res.send(err); }
-                res.json(book);
+                Book
+                    .findById(req.params.book_id)
+                    .populate('recommended_by')
+                    .exec(function(err, book) {
+                        if (err) { console.log(err); res.send(err); }
+                        res.json(book);
+                    });
             });
 
         });
@@ -211,7 +227,6 @@ router.route('/activities')
     .post(function(req, res) {
         
         var activity = new Activity(req.body);
-        console.log(activity)
 
         activity.save(function(err) {
             if (err) { console.log(err); res.send(err); }

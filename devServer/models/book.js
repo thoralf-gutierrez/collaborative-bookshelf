@@ -18,6 +18,7 @@ var BookSchema   = new Schema({
         picture: String,
         google_id: String
     },
+    recommended_by: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     google_ratings_avg: Number,
     google_ratings_count: Number,
     goodreads_ratings_avg: Number,

@@ -4,10 +4,11 @@ angular.module('CollaborativeBookshelfApp.controllers',[]).
 
 controller('AppController', function($scope, $state, $mdSidenav, popupService, AuthService, AUTH_EVENTS) {
     $scope.user = {
-        name: AuthService.username(),
-        email: AuthService.useremail(),
-        picture: AuthService.userpicture(),
-        google_id: AuthService.userid()
+        id: AuthService.user_id(),
+        name: AuthService.user_name(),
+        email: AuthService.user_email(),
+        picture: AuthService.user_picture(),
+        google_id: AuthService.user_google_id()
     };
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
@@ -20,8 +21,9 @@ controller('AppController', function($scope, $state, $mdSidenav, popupService, A
         popupService.showPopup('Session Lost! Sorry, You have to login again.');
     });
 
-    $scope.setCurrentUserInfo = function(name, email, picture, google_id) {
+    $scope.setCurrentUserInfo = function(id, name, email, picture, google_id) {
         $scope.user = {
+            id: id,
             name: name,
             email: email,
             picture: picture,
@@ -65,7 +67,7 @@ controller('AppController', function($scope, $state, $mdSidenav, popupService, A
     };
 }).
 
-controller('BookListController',function($scope, $mdSidenav, $state, popupService, $window, Book){
+controller('BookListController',function($scope, $mdSidenav, $state, popupService, $window, Book, Recommendations){
 
     $scope.switches = {
         borrowed: true,
@@ -76,16 +78,30 @@ controller('BookListController',function($scope, $mdSidenav, $state, popupServic
         $mdSidenav('left').toggle();
     };
 
-    $scope.books = Book.query();
+    $scope.books = Book.query( function() {
+        $scope.books.map( function(book) {
+            book.is_recommended = Recommendations.is_recommended(book, $scope.user);
+        });
+    });
+
+    $scope.toggle_recommend = function(book) {
+        Recommendations.toggle_recommend(book, $scope.user);
+    };
 
 }).
 
-controller('BookViewController',function($scope,$stateParams,popupService,$sanitize,$mdToast,Book,Activity){
+controller('BookViewController',function($scope,$stateParams,popupService,$sanitize,$mdToast,Book,Activity, Recommendations){
 
-    $scope.book = Book.get({id:$stateParams.id});
+    $scope.book = Book.get({id:$stateParams.id}, function() {
+        $scope.book.is_recommended = Recommendations.is_recommended($scope.book, $scope.user);
+    });
     
     $scope.sanitizedDescription = function(){
         return $sanitize($scope.book.description);
+    };
+
+    $scope.toggle_recommend = function() {
+        Recommendations.toggle_recommend($scope.book, $scope.user);
     };
 
     $scope.subscribe = function() {
@@ -306,7 +322,7 @@ controller('LoginController', function ($scope, $state, popupService, AuthServic
     $scope.login = function() {
         AuthService.login().then(function(authenticated) {
             $state.go('books', {}, {reload: true});
-            $scope.setCurrentUserInfo(authenticated.name, authenticated.email, authenticated.picture, authenticated.id);
+            $scope.setCurrentUserInfo(authenticated.id, authenticated.name, authenticated.email, authenticated.picture, authenticated.google_id);
         }, function(err) {
             popupService.showPopup('Login failed! Please check your credentials!');
         });
@@ -335,9 +351,12 @@ controller('UserListController',function($scope, $mdSidenav, User){
 
 controller('UserViewController',function($scope, $state, $stateParams, $window, User, Book){
 
-    $scope.user = User.get({google_id:$stateParams.id}, function() {
-        var query = {'borrowed_by':$scope.user.google_id};
-        $scope.books = Book.query(query, function() {});
+    $scope.user_to_show = User.get({google_id:$stateParams.id}, function() {
+        var borrowed_by_query = {'borrowed_by':$scope.user_to_show.google_id};
+        $scope.borrowed_books = Book.query(borrowed_by_query, function() {});
+
+        var recommended_by_query = {'recommended_by': $scope.user_to_show._id };
+        $scope.recommended_books = Book.query(recommended_by_query, function() {});
     });
 
 });

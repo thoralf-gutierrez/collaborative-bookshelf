@@ -6,3 +6,23 @@
   opacity: 0.8;
 }
 */
+
+.already_recommended {
+	line-height: 40px;
+	width: 40px;
+	min-width: 0;
+	height: 40px;
+	border-radius: 50%;
+	color: #fff;
+	background: rgb(2,119,189);
+}
+
+.not_recommended {
+	line-height: 40px;
+	width: 40px;
+	min-width: 0;
+	height: 40px;
+	border-radius: 50%;
+	color: #757575;
+	background: #fff;
+}

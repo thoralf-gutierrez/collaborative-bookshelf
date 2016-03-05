@@ -68,9 +68,40 @@
                     </ul>
                 </div>
                 
+                <div ng-show="book.recommended_by.length > 0">
+                    <h4>Recommended by</h4>
+                    <md-list>
+                        <md-list-item
+                            class="md-2-line secondary-button-padding"
+                            ng-repeat="user in book.recommended_by | orderBy : 'name'">
+                            <!-- ui-sref="viewUser({id:user.google_id})"> -->
+                            
+                            <img alt="{{ user.name }}" ng-src="{{ user.picture }}" class="md-tile-left" height="72px" />
+                            <div class="md-list-item-text inset">  
+                              <h3>{{user.name}}</h3>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </div>
+                
+
             </md-card-content>
 
             <md-card-actions layout="row" layout-align="end center">
+                <md-button
+                    class="md-primary"
+                    ng-click="toggle_recommend()"
+                    ng-hide="book.is_recommended">
+                    Recommend
+                </md-button>
+
+                <md-button
+                    class="md-warn"
+                    ng-click="toggle_recommend()"
+                    ng-show="book.is_recommended">
+                    Remove recommendation
+                </md-button>
+
                 <md-button
                     class="md-primary"
                     ng-click="subscribe()">
