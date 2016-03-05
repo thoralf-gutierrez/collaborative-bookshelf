@@ -80,6 +80,14 @@
                       <h3>{{book.title}}</h3>
                       <p>{{book.subtitle}}</p>
                       <p>{{book.authors.join(", ")}}</p>
+                      <md-button
+                        class="md-secondary"
+                        ng-class="{already_recommended: book.is_recommended, not_recommended: !book.is_recommended}"
+                        aria-label="Recommend"
+                        ng-click="toggle_recommend(book)" >
+                        +{{book.recommended_by.length}}
+                      </md-button>
+                      
                     </div>
                 </md-list-item>
               </md-list>
