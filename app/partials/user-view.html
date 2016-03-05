@@ -35,7 +35,7 @@
                         </div>
                     </md-list-item>
 
-                    <md-subheader class="md-no-sticky">Recommendations</md-subheader>
+                    <md-subheader ng-show="recommended_books.length > 0" class="md-no-sticky">Recommendations</md-subheader>
                     <md-list-item
                         class="md-2-line secondary-button-padding"
                         ng-repeat="book in recommended_books | orderBy : 'title'"
