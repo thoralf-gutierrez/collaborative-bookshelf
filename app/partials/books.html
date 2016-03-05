@@ -71,7 +71,7 @@
                 <md-subheader class="md-no-sticky">Borrowed</md-subheader>
                 <md-list-item
                     class="md-2-line secondary-button-padding"
-                    ng-repeat="book in books | filter:search | bookFilter:{borrowed: true, available:false} | orderBy : 'title'"
+                    ng-repeat="book in books | filter:search | bookFilter:{borrowed: true, available:false} | orderBy : ['-recommended_by.length', 'title']"
                     ui-sref="viewBook({id:book._id})"
                     style="opacity: 0.4">
                     
