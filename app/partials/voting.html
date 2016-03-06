@@ -57,6 +57,7 @@
                       <h3>{{book.title}}</h3>
                       <p>{{book.subtitle}}</p>
                       <p>{{book.comment}}</p>
+                      <p>{{book.authors.join(", ")}}</p>
                       <md-button
                         class="md-secondary"
                         ng-class="{already_recommended: book.is_voted, not_recommended: !book.is_voted}"
