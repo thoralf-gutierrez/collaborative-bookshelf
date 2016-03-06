@@ -31,6 +31,11 @@
                         </md-button>
                     </md-card-actions>
 
+                    <div ng-show="book.comment">
+                        <h4>Comment</h4>
+                        <p>{{book.comment}}</p>
+                    </div>
+
                     <div ng-show="book.authors.length > 0">
                         <h4>Authors</h4>
                         <ul>

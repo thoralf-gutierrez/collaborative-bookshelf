@@ -21,6 +21,7 @@ var BookSchema   = new Schema({
     recommended_by: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     voted_by: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     acquired: Boolean,
+    comment: String,
     google_ratings_avg: Number,
     google_ratings_count: Number,
     goodreads_ratings_avg: Number,

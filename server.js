@@ -57,7 +57,7 @@ router.route('/books')
         } else {
             query = {'acquired': req.query.acquired}
         }
-        
+
         Book
             .find(query)
             .populate('recommended_by')
@@ -114,6 +114,7 @@ router.route('/books/:book_id')
             book.recommended_by = req.body.recommended_by;
             book.voted_by = req.body.voted_by;
             book.acquired = req.body.acquired;
+            book.comment = req.body.comment;
 		    book.google_ratings_avg = req.body.google_ratings_avg;
 		    book.google_ratings_count = req.body.google_ratings_count;
 		    book.goodreads_ratings_avg = req.body.goodreads_ratings_avg;
