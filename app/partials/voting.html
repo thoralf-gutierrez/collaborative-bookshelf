@@ -49,7 +49,7 @@
               <md-list>
                 <md-list-item
                     class="md-2-line secondary-button-padding"
-                    ng-repeat="book in books | filter:search | orderBy : ['-voted_by.length', 'title']"
+                    ng-repeat="book in books | filter:search | orderBy : ['-voted_by.length', '-goodreads_ratings_avg']"
                     ui-sref="viewVotingBook({id:book._id})">
                     
                     <img alt="{{ book.title }}" ng-src="{{ book.thumbnail || '/images/nocover.jpg' }}" class="md-tile-left" height="72px" />
