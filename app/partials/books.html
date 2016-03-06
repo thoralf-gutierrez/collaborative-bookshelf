@@ -55,9 +55,9 @@
                     
                     <img alt="{{ book.title }}" ng-src="{{ book.thumbnail || '/images/nocover.jpg' }}" class="md-tile-left" height="72px" />
                     <div class="md-list-item-text inset">  
-                      <h3>{{book.title}}</h3>
-                      <p>{{book.subtitle}}</p>
-                      <p>{{book.authors.join(", ")}}</p>
+                      <h3 style="padding-right:40px">{{book.title}}</h3>
+                      <p style="padding-right:40px">{{book.subtitle}}</p>
+                      <p style="padding-right:40px">{{book.authors.join(", ")}}</p>
                       <md-button
                         class="md-secondary"
                         ng-class="{already_recommended: book.is_recommended, not_recommended: !book.is_recommended}"
@@ -65,7 +65,6 @@
                         ng-click="toggle_recommend(book)" >
                         +{{book.recommended_by.length}}
                       </md-button>
-                      
                     </div>
                 </md-list-item>
                 <md-subheader class="md-no-sticky">Borrowed</md-subheader>
@@ -77,9 +76,9 @@
                     
                     <img alt="{{ book.title }}" ng-src="{{ book.thumbnail || '/images/nocover.jpg' }}" class="md-tile-left" height="72px" />
                     <div class="md-list-item-text inset">  
-                      <h3>{{book.title}}</h3>
-                      <p>{{book.subtitle}}</p>
-                      <p>{{book.authors.join(", ")}}</p>
+                      <h3 style="padding-right:40px">{{book.title}}</h3>
+                      <p style="padding-right:40px">{{book.subtitle}}</p>
+                      <p style="padding-right:40px">{{book.authors.join(", ")}}</p>
                       <md-button
                         class="md-secondary"
                         ng-class="{already_recommended: book.is_recommended, not_recommended: !book.is_recommended}"

@@ -54,10 +54,11 @@
                     
                     <img alt="{{ book.title }}" ng-src="{{ book.thumbnail || '/images/nocover.jpg' }}" class="md-tile-left" height="72px" />
                     <div class="md-list-item-text inset">  
-                      <h3>{{book.title}}</h3>
-                      <p>{{book.subtitle}}</p>
-                      <p>{{book.comment}}</p>
-                      <p>{{book.authors.join(", ")}}</p>
+                      <h3 style="padding-right:40px">{{book.title}}</h3>
+                      <p style="padding-right:40px">{{book.subtitle}}</p>
+                      <p style="padding-right:40px">{{book.comment}}</p>
+                      <p style="padding-right:40px">{{book.authors.join(", ")}}</p>
+
                       <md-button
                         class="md-secondary"
                         ng-class="{already_recommended: book.is_voted, not_recommended: !book.is_voted}"
