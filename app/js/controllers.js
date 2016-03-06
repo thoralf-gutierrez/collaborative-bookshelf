@@ -60,6 +60,11 @@ controller('AppController', function($scope, $state, $mdSidenav, popupService, A
         $state.go('viewUser', {id:$scope.user.google_id});
         $mdSidenav('left').toggle();
     };
+    
+    $scope.goToVoting = function(){
+        $state.go('voting');
+        $mdSidenav('left').toggle();
+    };
 
     $scope.emailFeedback = function() {
         var link = "mailto:thoralf.gutierrez@realimpactanalytics.com?subject=Library%20App%20Feedback&body=I%20want%20some%20more%20features!%20https%3A%2F%2Fyoutu.be%2FsZrgxHvNNUc";
@@ -74,7 +79,7 @@ controller('BookListController',function($scope, $mdSidenav, $state, popupServic
         $mdSidenav('left').toggle();
     };
 
-    $scope.books = Book.query( function() {
+    $scope.books = Book.query( {acquired: true}, function() {
         $scope.books.map( function(book) {
             book.is_recommended = Recommendations.is_recommended(book, $scope.user);
         });
@@ -82,6 +87,25 @@ controller('BookListController',function($scope, $mdSidenav, $state, popupServic
 
     $scope.toggle_recommend = function(book) {
         Recommendations.toggle_recommend(book, $scope.user);
+    };
+
+}).
+
+controller('VotingController',function($scope, $mdSidenav, $state, popupService, $window, Book, Votes){
+
+
+    $scope.toggleSidenav = function() {
+        $mdSidenav('left').toggle();
+    };
+
+    $scope.books = Book.query( {acquired: false}, function() {
+        $scope.books.map( function(book) {
+            book.is_voted = Votes.is_voted(book, $scope.user);
+        });
+    });
+
+    $scope.toggle_vote = function(book) {
+        Votes.toggle_vote(book, $scope.user);
     };
 
 }).
@@ -168,9 +192,35 @@ controller('BookViewController',function($scope,$stateParams,popupService,$sanit
 
 }).
 
+
+controller('VotingBookViewController',function($scope,$stateParams,popupService,$sanitize,$mdToast,Book,Activity, Votes){
+
+    $scope.book = Book.get({id:$stateParams.id}, function() {
+        $scope.book.is_voted = Votes.is_voted($scope.book, $scope.user);
+    });
+    
+    $scope.sanitizedDescription = function(){
+        return $sanitize($scope.book.description);
+    };
+
+    $scope.toggle_vote = function() {
+        Votes.toggle_vote($scope.book, $scope.user);
+    };
+
+    $scope.subscribe = function() {
+        popupService.showPopup('Coming soon ;-)');
+    };
+
+    $scope.goBack = function() {
+      window.history.back();
+    };
+
+}).
+
 controller('BookCreateController',function($scope,$state,$stateParams,$mdToast,Book,GoogleBooks,Goodreads,Activity){
 
     $scope.book = new Book();
+    $scope.book.acquired = true;
     $scope.book.authors = Array();
     $scope.book.categories = Array();
     $scope.loading_goodreads = false;
@@ -220,6 +270,57 @@ controller('BookCreateController',function($scope,$state,$stateParams,$mdToast,B
             $mdToast.show(toast);
 
             $state.go('books');
+        });
+    };
+
+}).
+
+controller('VotingBookCreateController',function($scope,$state,$stateParams,$mdToast,Book,GoogleBooks,Goodreads){
+
+    $scope.book = new Book();
+    $scope.book.acquired = false;
+    $scope.book.authors = Array();
+    $scope.book.categories = Array();
+    $scope.loading_goodreads = false;
+    $scope.loading_googlebooks = false;
+
+    $scope.validGoogleId = function(){
+        return GoogleBooks.validId($scope.book.google_id);
+    };
+
+    $scope.validGoodreadsId = function(){
+        return $scope.book.goodreads_id !== undefined && $scope.book.goodreads_id.length >= 1 && !isNaN($scope.book.goodreads_id);
+    };
+
+    $scope.loadFromGoogleBooks = function(){
+        $scope.loading_googlebooks = true;
+        GoogleBooks.loadBook($scope.book, $scope);
+    };
+
+    $scope.loadFromGoodreads = function(){
+        $scope.loading_goodreads = true;
+        Goodreads.loadRatings($scope.book, $scope);
+    };
+
+    $scope.$watch('book.google_id', function() {
+        if (GoogleBooks.validUrl($scope.book.google_id))
+            $scope.book.google_id = GoogleBooks.extractId($scope.book.google_id);
+    });
+
+    $scope.$watch('book.goodreads_id', function() {
+        if (Goodreads.validUrl($scope.book.goodreads_id))
+            $scope.book.goodreads_id = Goodreads.extractId($scope.book.goodreads_id);
+    });
+
+    $scope.addBook = function(){
+        $scope.book.$save(function(){
+            
+            var toast = $mdToast.simple()
+                                      .textContent("Book added")
+                                      .position('top right');
+            $mdToast.show(toast);
+
+            $state.go('voting');
         });
     };
 
@@ -314,6 +415,68 @@ controller('BookEditController',function($scope,$state,$stateParams,$window,$mdT
 
 }).
 
+controller('VotingBookEditController',function($scope,$state,$stateParams,$window,$mdToast,popupService,Book,GoogleBooks,Goodreads){
+
+    $scope.edit_mode = true;
+    $scope.loading_goodreads = false;
+    $scope.loading_googlebooks = false;
+
+    $scope.updateBook = function(){
+        $scope.book.$update(function(){
+            $state.go('viewVotingBook', {id: $stateParams.id});
+        });
+    };
+
+    $scope.validGoogleId = function(){
+        return GoogleBooks.validId($scope.book.google_id);
+    };
+
+    $scope.validGoodreadsId = function(){
+        return $scope.book.goodreads_id !== undefined && $scope.book.goodreads_id.length >= 1 && !isNaN($scope.book.goodreads_id);
+    };
+
+    $scope.loadFromGoogleBooks = function(){
+        $scope.loading_googlebooks = true;
+        GoogleBooks.loadBook($scope.book, $scope);
+    };
+
+    $scope.loadFromGoodreads = function(){
+        $scope.loading_goodreads = true;
+        Goodreads.loadRatings($scope.book, $scope);
+    };
+
+    $scope.loadBook = function(){
+        $scope.book = Book.get({id:$stateParams.id});
+    };
+
+    $scope.loadBook();
+
+    $scope.$watch('book.google_id', function() {
+        if (GoogleBooks.validUrl($scope.book.google_id))
+            $scope.book.google_id = GoogleBooks.extractId($scope.book.google_id);
+    });
+
+    $scope.$watch('book.goodreads_id', function() {
+        if (Goodreads.validUrl($scope.book.goodreads_id))
+            $scope.book.goodreads_id = Goodreads.extractId($scope.book.goodreads_id);
+    });
+
+    $scope.deleteBook = function(book){
+        if(popupService.askPopup('Really delete this?')){
+            book.$delete(function(){
+                
+                var toast = $mdToast.simple()
+                                      .textContent("Book deleted")
+                                      .position('top right');
+                $mdToast.show(toast);
+
+                $state.go('voting');
+            });
+        }
+    };
+
+}).
+
 controller('LoginController', function ($scope, $state, popupService, AuthService) {
     $scope.login = function() {
         AuthService.login().then(function(authenticated) {
@@ -353,6 +516,9 @@ controller('UserViewController',function($scope, $state, $stateParams, $window, 
 
         var recommended_by_query = {'recommended_by': $scope.user_to_show._id };
         $scope.recommended_books = Book.query(recommended_by_query, function() {});
+
+        var voted_by_query = {'voted_by': $scope.user_to_show._id };
+        $scope.voted_books = Book.query(voted_by_query, function() {});
     });
 
 });

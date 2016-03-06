@@ -49,6 +49,20 @@
                         </div>
                     </md-list-item>
 
+                    <md-subheader ng-show="voted_books.length > 0" class="md-no-sticky">Voting to buy these books</md-subheader>
+                    <md-list-item
+                        class="md-2-line secondary-button-padding"
+                        ng-repeat="book in voted_books | orderBy : 'title'"
+                        ui-sref="viewVotingBook({id:book._id})">
+                        
+                        <img alt="{{ book.title }}" ng-src="{{ book.thumbnail || '/images/nocover.jpg' }}" class="md-tile-left" height="72px" />
+                        <div class="md-list-item-text inset">  
+                          <h3>{{book.title}}</h3>
+                          <p>{{book.subtitle}}</p>
+                          <p>{{book.authors.join(", ")}}</p>
+                        </div>
+                    </md-list-item>
+
                 </md-list>
             </md-card-content>
             

@@ -1,0 +1,75 @@
+<md-button class="md-fab md-fab-bottom-right" aria-label="Add" ui-sref="newVotingBook">
+    <ng-md-icon icon="add"></ng-md-icon>
+</md-button>
+
+<md-toolbar class="md-whiteframe-1dp" ng-show="!showSearch">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Menu" ng-click="toggleSidenav()" hide-gt-md>
+      <ng-md-icon icon="menu"></ng-md-icon>
+    </md-button>
+    <h2>
+      Next Deliveries
+    </h2>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="Search" ng-click="showSearch = !showSearch">
+      <ng-md-icon icon="search"></ng-md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<md-toolbar class="md-whiteframe-1dp md-hue-1" ng-show="showSearch">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Back" ng-click="search = ''; showSearch = !showSearch">
+      <ng-md-icon icon="arrow_back"></ng-md-icon>
+    </md-button>
+    <h2 flex="10">
+      Back
+    </h2>
+
+    <span layout="column" flex>
+      <label>&nbsp;</label>
+      <md-input-container md-no-float class="md-block">
+        <input ng-model="search.$" placeholder="enter search">
+      </md-input-container>
+    </span>
+
+    <md-button class="md-icon-button" aria-label="Search" ng-click="showSearch = !showSearch">
+      <ng-md-icon icon="search"></ng-md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<md-content flex md-scroll-y>
+    <div layout="column" layout-fill layout-padding role="main">
+        <div class="inset" hide-sm></div>
+
+        <md-card flex-gt-sm="90" flex-gt-md="80">
+            <md-card-content>
+              <p>This is the voting list we use to buy new books. Feel free to add new books to the list and vote for the ones you'd like us to buy.</p>
+              <md-list>
+                <md-list-item
+                    class="md-2-line secondary-button-padding"
+                    ng-repeat="book in books | filter:search | orderBy : ['-voted_by.length', 'title']"
+                    ui-sref="viewVotingBook({id:book._id})">
+                    
+                    <img alt="{{ book.title }}" ng-src="{{ book.thumbnail || '/images/nocover.jpg' }}" class="md-tile-left" height="72px" />
+                    <div class="md-list-item-text inset">  
+                      <h3>{{book.title}}</h3>
+                      <p>{{book.subtitle}}</p>
+                      <p>{{book.authors.join(", ")}}</p>
+                      <md-button
+                        class="md-secondary"
+                        ng-class="{already_recommended: book.is_voted, not_recommended: !book.is_voted}"
+                        aria-label="Vote"
+                        ng-click="toggle_vote(book)" >
+                        +{{book.voted_by.length}}
+                      </md-button>
+                      
+                    </div>
+                </md-list-item>
+              </md-list>
+
+            </md-card-content>
+        </md-card>
+    </div>
+</md-content>

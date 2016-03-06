@@ -162,6 +162,35 @@ service('Recommendations',function(){
 
 }).
 
+service('Votes',function(){
+	
+    this.is_voted = function(book, user) {
+    	var voted = false;
+        book.voted_by.map( function(object, i) {
+            if (object._id == user.id)
+                voted = true;
+        });
+        return voted;
+    };
+
+    this.toggle_vote = function(book, user) {
+        var index = -1;
+        book.voted_by.map( function(object, i) {
+            if (object._id == user.id)
+                index = i;
+        });
+        if (index >= 0) {
+            book.voted_by.splice(index, 1); 
+            book.$update( function() { book.is_voted = false; });
+        } else {
+            book.voted_by.push( { _id: user.id } );
+            book.$update( function() { book.is_voted = true; });
+        }
+        
+    };
+
+}).
+
 service('AuthService', function($q, $http, popupService, GooglePlus, User, USER_ROLES) {
 	var LOCAL_TOKEN_KEY = 'local_token_key';
 	var LOCAL_USER_ID = 'local_user_id';

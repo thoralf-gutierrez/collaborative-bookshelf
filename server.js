@@ -52,13 +52,16 @@ router.route('/books')
             query = {'borrowed_by.google_id': req.query.borrowed_by}
         } else if (req.query.recommended_by) {
             query = {'recommended_by': { $elemMatch: { $eq: new ObjectId(req.query.recommended_by) } } }
+        } else if (req.query.voted_by) {
+            query = {'voted_by': { $elemMatch: { $eq: new ObjectId(req.query.voted_by) } } }
         } else {
-            query = {}
+            query = {'acquired': req.query.acquired}
         }
-
+        
         Book
             .find(query)
             .populate('recommended_by')
+            .populate('voted_by')
             .exec(function(err, books) {
                 if (err) { console.log(err); res.send(err); }
                 res.json(books);
@@ -83,6 +86,7 @@ router.route('/books/:book_id')
         Book
             .findById(req.params.book_id)
             .populate('recommended_by')
+            .populate('voted_by')
             .exec(function(err, book) {
                 if (err) { console.log(err); res.send(err); }
                 res.json(book);
@@ -108,6 +112,8 @@ router.route('/books/:book_id')
             book.language = req.body.language;
 		    book.borrowed_by = req.body.borrowed_by;
             book.recommended_by = req.body.recommended_by;
+            book.voted_by = req.body.voted_by;
+            book.acquired = req.body.acquired;
 		    book.google_ratings_avg = req.body.google_ratings_avg;
 		    book.google_ratings_count = req.body.google_ratings_count;
 		    book.goodreads_ratings_avg = req.body.goodreads_ratings_avg;
@@ -118,6 +124,7 @@ router.route('/books/:book_id')
                 Book
                     .findById(req.params.book_id)
                     .populate('recommended_by')
+                    .populate('voted_by')
                     .exec(function(err, book) {
                         if (err) { console.log(err); res.send(err); }
                         res.json(book);

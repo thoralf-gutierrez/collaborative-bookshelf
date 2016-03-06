@@ -1,0 +1,120 @@
+<md-toolbar class="md-whiteframe-1dp md-hue-1">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Back" ng-click="goBack()">
+      <ng-md-icon icon="arrow_back"></ng-md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<md-content flex md-scroll-y>
+    <div layout="column" layout-fill layout-padding role="main">
+        
+        <div class="inset" hide-sm></div>
+        
+        <md-card flex-gt-sm="90" flex-gt-md="80">
+
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{book.title}}</span>
+                    <span class="md-subhead">{{book.subtitle}}</span>
+
+                    <md-card-actions layout="row" layout-align="start center">
+                        <md-button
+                            ng-show="book.google_id"
+                            ng-href="https://books.google.be/books/about?id={{book.google_id}}" target="_blank">
+                            Google Books<span ng-show="book.google_ratings_avg"> : {{book.google_ratings_avg}}/5</span>
+                        </md-button>
+                        <md-button
+                            ng-show="book.goodreads_id"
+                            ng-href="https://www.goodreads.com/book/show/{{book.goodreads_id}}" target="_blank">
+                            Goodreads<span ng-show="book.goodreads_ratings_avg"> : {{book.goodreads_ratings_avg}}/5</span>
+                        </md-button>
+                    </md-card-actions>
+
+                    <div ng-show="book.authors.length > 0">
+                        <h4>Authors</h4>
+                        <ul>
+                            <li ng-repeat="author in book.authors">{{author}}</li>
+                        </ul>
+                    </div>
+
+                    <!--
+                    <div>
+                        <p ng-show="book.publisher"><strong>Publisher</strong> {{book.publisher}}</p>
+                        <p ng-show="book.published_date"><strong>Published</strong> {{book.published_date}}</p>
+                        <p ng-show="book.language"><strong>Language</strong> {{book.language}}</p>
+                    </div>
+                    -->
+                    
+                </md-card-title-text>
+
+                <md-card-title-media>
+                    <img ng-src="{{book.thumbnail}}" width="152px" />
+                </md-card-title-media>
+            </md-card-title>
+
+            
+            <md-card-content>
+
+                <div ng-show="book.description">
+                    <h4>Description</h4>
+                    <div ng-bind-html="sanitizedDescription()"></div>
+                </div>
+
+                <div ng-show="book.categories.length > 0">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li ng-repeat="category in book.categories">{{category}}</li>
+                    </ul>
+                </div>
+                
+                <div ng-show="book.voted_by.length > 0">
+                    <h4>Voted for by</h4>
+                    <md-list>
+                        <md-list-item
+                            class="md-2-line secondary-button-padding"
+                            ng-repeat="user in book.voted_by | orderBy : 'name'">
+                            <!-- ui-sref="viewUser({id:user.google_id})"> -->
+                            
+                            <img alt="{{ user.name }}" ng-src="{{ user.picture }}" class="md-tile-left" height="72px" />
+                            <div class="md-list-item-text inset">  
+                              <h3>{{user.name}}</h3>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </div>
+                
+
+            </md-card-content>
+
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button
+                    class="md-primary"
+                    ng-click="toggle_vote()"
+                    ng-hide="book.is_voted">
+                    Vote
+                </md-button>
+
+                <md-button
+                    class="md-warn"
+                    ng-click="toggle_vote()"
+                    ng-show="book.is_voted">
+                    Remove Vote
+                </md-button>
+
+                <md-button
+                    class="md-primary"
+                    ng-click="subscribe()">
+                    Subscribe
+                    <md-tooltip md-direction="top">
+                        Get notified when this book becomes available
+                    </md-tooltip>
+                </md-button>
+
+                
+                <md-button ui-sref="editVotingBook({id:book._id})">Edit</md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+</md-content>
+

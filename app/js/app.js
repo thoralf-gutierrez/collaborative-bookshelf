@@ -52,6 +52,42 @@ app.config(function($stateProvider,$httpProvider, $urlRouterProvider, USER_ROLES
         }
     }).
 
+    state('voting',{
+        url:'/voting',
+        templateUrl:'partials/voting.html',
+        controller:'VotingController',
+        data: {
+          authorizedRoles: [USER_ROLES.logged_in_user]
+        }
+    }).
+
+    state('viewVotingBook',{
+       url:'/voting/:id/view',
+       templateUrl:'partials/voting-book-view.html',
+       controller:'VotingBookViewController',
+        data: {
+          authorizedRoles: [USER_ROLES.logged_in_user]
+        }
+    }).
+
+    state('newVotingBook',{
+        url:'/voting/new',
+        templateUrl:'partials/voting-book-add.html',
+        controller:'VotingBookCreateController',
+        data: {
+          authorizedRoles: [USER_ROLES.logged_in_user]
+        }
+    }).
+
+    state('editVotingBook',{
+        url:'/voting/:id/edit',
+        templateUrl:'partials/voting-book-edit.html',
+        controller:'VotingBookEditController',
+        data: {
+          authorizedRoles: [USER_ROLES.logged_in_user]
+        }
+    }).
+
     state('activity',{
         url:'/activity',
         templateUrl:'partials/activity.html',
