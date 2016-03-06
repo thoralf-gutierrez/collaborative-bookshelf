@@ -69,10 +69,6 @@ controller('AppController', function($scope, $state, $mdSidenav, popupService, A
 
 controller('BookListController',function($scope, $mdSidenav, $state, popupService, $window, Book, Recommendations){
 
-    $scope.switches = {
-        borrowed: true,
-        available: true
-    };
 
     $scope.toggleSidenav = function() {
         $mdSidenav('left').toggle();
