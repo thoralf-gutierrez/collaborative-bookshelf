@@ -207,10 +207,6 @@ controller('VotingBookViewController',function($scope,$stateParams,popupService,
         Votes.toggle_vote($scope.book, $scope.user);
     };
 
-    $scope.subscribe = function() {
-        popupService.showPopup('Coming soon ;-)');
-    };
-
     $scope.goBack = function() {
       window.history.back();
     };
