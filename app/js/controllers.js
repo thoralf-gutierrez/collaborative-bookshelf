@@ -241,13 +241,17 @@ controller('BookCreateController',function($scope,$state,$stateParams,$mdToast,B
     };
 
     $scope.$watch('book.google_id', function() {
-        if (GoogleBooks.validUrl($scope.book.google_id))
+        if (GoogleBooks.validUrl($scope.book.google_id)) {
             $scope.book.google_id = GoogleBooks.extractId($scope.book.google_id);
+            $scope.loadFromGoogleBooks();
+        }
     });
 
     $scope.$watch('book.goodreads_id', function() {
-        if (Goodreads.validUrl($scope.book.goodreads_id))
+        if (Goodreads.validUrl($scope.book.goodreads_id)) {
             $scope.book.goodreads_id = Goodreads.extractId($scope.book.goodreads_id);
+            $scope.loadFromGoodreads();
+        }
     });
 
     $scope.addBook = function(){
@@ -299,13 +303,17 @@ controller('VotingBookCreateController',function($scope,$state,$stateParams,$mdT
     };
 
     $scope.$watch('book.google_id', function() {
-        if (GoogleBooks.validUrl($scope.book.google_id))
+        if (GoogleBooks.validUrl($scope.book.google_id)) {
             $scope.book.google_id = GoogleBooks.extractId($scope.book.google_id);
+            $scope.loadFromGoogleBooks();
+        }
     });
 
     $scope.$watch('book.goodreads_id', function() {
-        if (Goodreads.validUrl($scope.book.goodreads_id))
+        if (Goodreads.validUrl($scope.book.goodreads_id)) {
             $scope.book.goodreads_id = Goodreads.extractId($scope.book.goodreads_id);
+            $scope.loadFromGoodreads();
+        }
     });
 
     $scope.addBook = function(){
@@ -379,15 +387,19 @@ controller('BookEditController',function($scope,$state,$stateParams,$window,$mdT
     $scope.loadBook();
 
     $scope.$watch('book.google_id', function() {
-        if (GoogleBooks.validUrl($scope.book.google_id))
+        if (GoogleBooks.validUrl($scope.book.google_id)) {
             $scope.book.google_id = GoogleBooks.extractId($scope.book.google_id);
+            $scope.loadFromGoogleBooks();
+        }
     });
 
     $scope.$watch('book.goodreads_id', function() {
-        if (Goodreads.validUrl($scope.book.goodreads_id))
+        if (Goodreads.validUrl($scope.book.goodreads_id)) {
             $scope.book.goodreads_id = Goodreads.extractId($scope.book.goodreads_id);
+            $scope.loadFromGoodreads();
+        }
     });
-
+    
     $scope.deleteBook = function(book){
         if(popupService.askPopup('Really delete this?')){
             book.$delete(function(){
@@ -448,13 +460,17 @@ controller('VotingBookEditController',function($scope,$state,$stateParams,$windo
     $scope.loadBook();
 
     $scope.$watch('book.google_id', function() {
-        if (GoogleBooks.validUrl($scope.book.google_id))
+        if (GoogleBooks.validUrl($scope.book.google_id)) {
             $scope.book.google_id = GoogleBooks.extractId($scope.book.google_id);
+            $scope.loadFromGoogleBooks();
+        }
     });
 
     $scope.$watch('book.goodreads_id', function() {
-        if (Goodreads.validUrl($scope.book.goodreads_id))
+        if (Goodreads.validUrl($scope.book.goodreads_id)) {
             $scope.book.goodreads_id = Goodreads.extractId($scope.book.goodreads_id);
+            $scope.loadFromGoodreads();
+        }
     });
 
     $scope.deleteBook = function(book){
