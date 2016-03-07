@@ -214,7 +214,7 @@ service('AuthService', function($q, $http, popupService, GooglePlus, User, USER_
 		var email = window.localStorage.getItem(LOCAL_USER_EMAIL);
 		var picture = window.localStorage.getItem(LOCAL_USER_PICTURE);
 		var google_id = window.localStorage.getItem(LOCAL_USER_GOOGLE_ID);
-		if (token and id.length > 0) {
+		if (token && id.length > 0) {
 			useCredentials(token, id, name, email, picture, google_id);
 		}
 	}
