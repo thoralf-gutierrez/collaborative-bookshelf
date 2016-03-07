@@ -95,6 +95,9 @@ router.route('/books/:book_id')
 
     .put(function(req, res) {
 
+        console.log("Pushing book")
+        console.log(req.body)
+
         Book.findById(req.params.book_id, function(err, book) {
 
             if (err) { console.log(err); res.send(err); }
