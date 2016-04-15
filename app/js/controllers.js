@@ -489,7 +489,7 @@ controller('VotingBookEditController',function($scope,$state,$stateParams,$windo
     };
 
     $scope.aquireBook = function(){
-        console.log("calling aquire")
+        
         $scope.book.acquired = true;
         $scope.book.voted_by = undefined;
 
