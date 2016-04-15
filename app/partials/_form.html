@@ -100,5 +100,6 @@
 
 <div layout="row" layout-align="end center">
     <md-button class="md-secondary" ng-click="deleteBook(book)" ng-show="edit_mode">Delete</md-button>
+    <md-button class="md-secondary" ng-click="aquireBook()" ng-show="voting_mode">Add book to Library</md-button>
     <md-button class="md-primary" ng-disabled="bookForm.$invalid" type="submit">Save</md-button>
 </div>

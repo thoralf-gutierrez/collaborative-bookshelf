@@ -423,9 +423,10 @@ controller('BookEditController',function($scope,$state,$stateParams,$window,$mdT
 
 }).
 
-controller('VotingBookEditController',function($scope,$state,$stateParams,$window,$mdToast,popupService,Book,GoogleBooks,Goodreads){
+controller('VotingBookEditController',function($scope,$state,$stateParams,$window,$mdToast,popupService,Book,GoogleBooks,Goodreads,Activity){
 
     $scope.edit_mode = true;
+    $scope.voting_mode = true;
     $scope.loading_goodreads = false;
     $scope.loading_googlebooks = false;
 
@@ -485,6 +486,29 @@ controller('VotingBookEditController',function($scope,$state,$stateParams,$windo
                 $state.go('voting');
             });
         }
+    };
+
+    $scope.aquireBook = function(){
+        console.log("calling aquire")
+        $scope.book.acquired = true;
+        $scope.book.voted_by = undefined;
+
+        $scope.book.$update(function(){
+            
+            var activity = new Activity();
+            activity.type = 'add';
+            activity.user = $scope.user;
+            activity.book = $scope.book._id;
+
+            activity.$save();
+
+            var toast = $mdToast.simple()
+                                      .textContent("Book added")
+                                      .position('top right');
+            $mdToast.show(toast);
+
+            $state.go('books');
+        });
     };
 
 }).
