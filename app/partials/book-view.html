@@ -6,88 +6,63 @@
   </div>
 </md-toolbar>
 
-<md-content flex md-scroll-y>
+<md-content>
     <div layout="column" layout-fill layout-padding role="main">
         
         <div class="inset" hide-sm></div>
         
-        <md-card flex-gt-sm="90" flex-gt-md="80">
-
+        <md-card>
             <md-card-title>
-                <md-card-title-text>
-                    <span class="md-headline">{{book.title}}</span>
-                    <span class="md-subhead">{{book.subtitle}}</span>
-
-                    <md-card-actions layout="row" layout-align="start center">
-                        <md-button
-                            ng-show="book.google_id"
-                            ng-href="https://books.google.be/books/about?id={{book.google_id}}" target="_blank">
-                            Google Books<span ng-show="book.google_ratings_avg"> : {{book.google_ratings_avg}}/5</span>
-                        </md-button>
-                        <md-button
-                            ng-show="book.goodreads_id"
-                            ng-href="https://www.goodreads.com/book/show/{{book.goodreads_id}}" target="_blank">
-                            Goodreads<span ng-show="book.goodreads_ratings_avg"> : {{book.goodreads_ratings_avg}}/5</span>
-                        </md-button>
-                    </md-card-actions>
-
-                    <div ng-show="book.authors.length > 0">
-                        <h4>Authors</h4>
-                        <ul>
-                            <li ng-repeat="author in book.authors">{{author}}</li>
-                        </ul>
-                    </div>
-
-                    <!--
-                    <div>
-                        <p ng-show="book.publisher"><strong>Publisher</strong> {{book.publisher}}</p>
-                        <p ng-show="book.published_date"><strong>Published</strong> {{book.published_date}}</p>
-                        <p ng-show="book.language"><strong>Language</strong> {{book.language}}</p>
-                    </div>
-                    -->
-                    
-                </md-card-title-text>
-
-                <md-card-title-media>
-                    <img ng-src="{{book.thumbnail}}" width="152px" />
-                </md-card-title-media>
+              <md-card-title-text>
+                <span class="md-headline">{{book.title}}</span>
+                <span class="md-subhead">{{book.subtitle}}</span>
+                <span>by <em>{{authors_string}}</em></span>
+              </md-card-title-text>
+              <md-card-title-media>
+                <div class="md-media-sm card-media"><img ng-src="{{book.thumbnail}}"/></div>
+              </md-card-title-media>
             </md-card-title>
+            <md-card-actions layout="row" layout-align="start center">
+              <md-button
+                    ng-show="book.google_id"
+                    ng-href="https://books.google.be/books/about?id={{book.google_id}}" target="_blank">
+                    Google Books<span ng-show="book.google_ratings_avg"> : {{book.google_ratings_avg}}/5</span>
+                </md-button>
+                <md-button
+                    ng-show="book.goodreads_id"
+                    ng-href="https://www.goodreads.com/book/show/{{book.goodreads_id}}" target="_blank">
+                    Goodreads<span ng-show="book.goodreads_ratings_avg"> : {{book.goodreads_ratings_avg}}/5</span>
+                </md-button>
+            </md-card-actions>
 
-            
-            <md-card-content>
+           <md-card-content>
 
                 <div ng-show="book.description">
-                    <h4>Description</h4>
-                    <div ng-bind-html="sanitizedDescription()"></div>
-                </div>
-
-                <div ng-show="book.categories.length > 0">
-                    <h4>Categories</h4>
-                    <ul>
-                        <li ng-repeat="category in book.categories">{{category}}</li>
-                    </ul>
+                    <span class="md-title">Synopsis</span>
+                    <p ng-bind-html="sanitizedDescription()"></p>
                 </div>
                 
                 <div ng-show="book.recommended_by.length > 0">
-                    <h4>Recommended by</h4>
-                    <md-list>
-                        <md-list-item
-                            class="md-2-line secondary-button-padding"
-                            ng-repeat="user in book.recommended_by | orderBy : 'name'">
-                            <!-- ui-sref="viewUser({id:user.google_id})"> -->
-                            
-                            <img alt="{{ user.name }}" ng-src="{{ user.picture }}" class="md-tile-left" height="72px" />
-                            <div class="md-list-item-text inset">  
-                              <h3>{{user.name}}</h3>
-                            </div>
+
+                    <md-list class="fixedRows">
+                    <span class="md-title">Recommended by</span>
+                     <md-list-item class="md-2-line contact-item" ng-repeat="user in book.recommended_by | orderBy : 'name'">
+                        <img ng-src="{{user.picture}}" class="md-avatar" alt="{{user.name}}" />
+                        <div class="md-list-item-text compact">
+                          <h3>{{user.name}}</h3>
+                        </div>
                         </md-list-item>
                     </md-list>
                 </div>
-                
+
+                <div ng-show="book.categories.length > 0">
+                    <span class="md-title">Categories</span>
+                    <md-chips ng-model="book.categories" readonly="true"></md-chips>
+                </div>
 
             </md-card-content>
 
-            <md-card-actions layout="row" layout-align="end center">
+           <md-card-actions layout="row" layout-align="end center">
                 <md-button
                     class="md-primary"
                     ng-click="toggle_recommend()"
@@ -135,7 +110,9 @@
                 
                 <md-button ui-sref="editBook({id:book._id})">Edit</md-button>
             </md-card-actions>
+
         </md-card>
+
     </div>
 </md-content>
 
