@@ -114,6 +114,14 @@ controller('BookViewController',function($scope,$stateParams,popupService,$sanit
 
     $scope.book = Book.get({id:$stateParams.id}, function() {
         $scope.book.is_recommended = Recommendations.is_recommended($scope.book, $scope.user);
+
+        var authors_string = $scope.book.authors[0];
+
+        for (var i=1; i<$scope.book.authors.length;i++){
+            authors_string += ', ' + $scope.book.authors[i];
+        }
+
+        $scope.authors_string = authors_string;
     });
     
     $scope.sanitizedDescription = function(){
