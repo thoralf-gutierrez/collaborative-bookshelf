@@ -205,6 +205,14 @@ controller('VotingBookViewController',function($scope,$stateParams,popupService,
 
     $scope.book = Book.get({id:$stateParams.id}, function() {
         $scope.book.is_voted = Votes.is_voted($scope.book, $scope.user);
+
+        var authors_string = $scope.book.authors[0];
+
+        for (var i=1; i<$scope.book.authors.length;i++){
+            authors_string += ', ' + $scope.book.authors[i];
+        }
+
+        $scope.authors_string = authors_string;
     });
     
     $scope.sanitizedDescription = function(){
