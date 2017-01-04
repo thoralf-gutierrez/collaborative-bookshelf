@@ -82,6 +82,7 @@ controller('BookListController',function($scope, $mdSidenav, $state, popupServic
     $scope.books = Book.query( {acquired: true}, function() {
         $scope.books.map( function(book) {
             book.is_recommended = Recommendations.is_recommended(book, $scope.user);
+            book.goodreads_ratings_avg = book.goodreads_ratings_avg || 0;
         });
     });
 
@@ -101,6 +102,7 @@ controller('VotingController',function($scope, $mdSidenav, $state, popupService,
     $scope.books = Book.query( {acquired: false}, function() {
         $scope.books.map( function(book) {
             book.is_voted = Votes.is_voted(book, $scope.user);
+            book.goodreads_ratings_avg = book.goodreads_ratings_avg || 0;
         });
     });
 
