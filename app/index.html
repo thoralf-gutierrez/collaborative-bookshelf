@@ -19,13 +19,14 @@
       md-is-locked-open="$mdMedia('gt-md')"
       ng-show="isAuthenticated()">
       
-      <md-toolbar class="md-tall md-hue-2">
+    <md-toolbar class="md-tall md-hue-2">
         <span flex></span>
         <div layout="column" class="md-toolbar-tools-bottom inset">
-          <img ng-src="{{user.picture}}" height="64px" width="64px" display="block" alt="{{user.name}}" ng-cloak/>
-          <p ng-cloak>{{user.name}}</p>
+          <img ng-src="{{user.picture}}" height="64px" width="64px" class="md-avatar" alt="{{user.name}}" ng-cloak/>
+          <span></span>
+          <div>{{user.name}}</div>
         </div>
-      </md-toolbar>
+    </md-toolbar>
       
       <md-list>
         <md-list-item ng-click="goToBooks()">
