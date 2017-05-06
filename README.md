@@ -11,15 +11,13 @@ You'll also need to have a mongoDB installed.
 Create a folder for your db, wherever you like
 
 ```
-mkdir data
-cd data
-mkdir db
+mkdir collaborative-bookshelf-db
 ```
 
 Launch MongoDB with db in the folder just created
 
 ```
-mongod --dbpath path/to/data/db
+mongod --dbpath /path/to/collaborative-bookshelf-db
 ```
 
 Create db and user for the app in mongo shell
